@@ -22,7 +22,7 @@ RT_WEAK char rt_hw_console_getchar(void)
     int ch = -1;
 
 #error "TODO 4: Read a char from the uart and assign it to 'ch'."
-
+    
     return ch;
 }
 

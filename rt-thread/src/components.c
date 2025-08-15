@@ -183,7 +183,7 @@ void main_thread_entry(void *parameter)
 #if defined(__CC_ARM) || defined(__CLANG_ARM)
     $Super$$main(); /* for ARMCC. */
 #elif defined(__ICCARM__) || defined(__GNUC__)
-    main();
+    // main();
 #endif
 }
 
