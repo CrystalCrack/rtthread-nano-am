@@ -12,7 +12,7 @@ app_dir_list = [
   # AM_KERNELS_HOME / "kernels" / "typing-game",
   # AM_KERNELS_HOME / "kernels" / "snake",
   # AM_KERNELS_HOME / ".." / "fceux-am",
-  AM_KERNELS_HOME / "benchmarks" / "coremark",
+  # AM_KERNELS_HOME / "benchmarks" / "coremark",
 ]
 
 if len(sys.argv) != 3:

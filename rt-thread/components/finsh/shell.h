@@ -24,7 +24,7 @@
 #define FINSH_CMD_SIZE      80
 #endif
 
-#define FINSH_OPTION_ECHO   0x01
+#define FINSH_OPTION_ECHO   0x00
 
 #define FINSH_PROMPT        finsh_get_prompt()
 const char* finsh_get_prompt(void);

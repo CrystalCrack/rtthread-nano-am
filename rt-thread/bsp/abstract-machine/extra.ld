@@ -27,8 +27,8 @@ SECTIONS {
     *(__am_apps.sdata*)
     __am_apps_data_end = .;
     . = ALIGN(8);
-  }
-}
+  } > DRAM
+} 
 INSERT BEFORE .data;
 
 SECTIONS {
@@ -40,6 +40,6 @@ SECTIONS {
     *(__am_apps.scommon*)
     __am_apps_bss_end = .;
     . = ALIGN(8);
-  }
-}
+  } > DRAM
+} 
 INSERT BEFORE .bss;

@@ -264,6 +264,7 @@ rt_thread_t rt_thread_self(void)
  * @return the operation status, RT_EOK on OK, -RT_ERROR on error
  */
 rt_err_t rt_thread_startup(rt_thread_t thread)
+ 
 {
     /* thread check */
     RT_ASSERT(thread != RT_NULL);

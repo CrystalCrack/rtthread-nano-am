@@ -6,12 +6,18 @@ RTCONFIG_H = rtconfig.h
 
 NAME = rtthread
 SRCS = $(shell find src -name "*.c")
+# Add applications source files
+SRCS += $(shell find ../../applications -name "*.c")
 CFLAGS += -DHAVE_CCONFIG_H -D__RTTHREAD__
 CFLAGS += -Wno-nonnull-compare
-LDFLAGS += -T extra.ld
+# Add applications include paths
+CFLAGS += -I../../applications/coremark/include
+LDSCRIPTS += extra.ld
 -include $(FILE_MK)
--include $(AM_APPS_MK)
+# -include $(AM_APPS_MK)
 include $(AM_HOME)/Makefile
+CLEAN_DIR += $(WORK_DIR)/applications
+
 
 # Enable Ftrace
 CUR_DIR = $(shell pwd)

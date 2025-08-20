@@ -1,6 +1,19 @@
 {
     "files.associations": {
         "rtconfig.h": "c",
-        "extra.h": "c"
+        "extra.h": "c",
+        "typeinfo": "cpp",
+        "system_error": "c",
+        "array": "c",
+        "deque": "c",
+        "string": "c",
+        "unordered_map": "c",
+        "vector": "c",
+        "string_view": "c",
+        "initializer_list": "c",
+        "functional": "c",
+        "rthw.h": "c",
+        "finsh_config.h": "c",
+        "rtthread.h": "c"
     }
 }
