@@ -21,7 +21,7 @@ CLEAN_DIR += $(WORK_DIR)/applications
 
 # Enable Ftrace
 CUR_DIR = $(shell pwd)
-# USER_ARGS += -e $(CUR_DIR)/build/rtthread-riscv32-jingyeda.elf
+USER_ARGS += -e $(CUR_DIR)/build/rtthread-riscv32-jingyeda.elf
 
 $(RTCONFIG_H):
 	touch $@

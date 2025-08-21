@@ -67,13 +67,8 @@ void rt_hw_board_init() {
   
 }
 
-int main() {
+int am_main() {
   ioe_init();
-#ifdef __ISA_NATIVE__
-  // trigger the real initialization of IOE to
-  // perform SDL initialization int this main thread with large stack
-  io_read(AM_TIMER_CONFIG);
-#endif
   extern void __am_cte_init();
   __am_cte_init();
   extern int entry(void);
@@ -89,15 +84,8 @@ void rt_hw_console_output(const char *str){
     p++;
   }
 }
-
-char first_getchar = 1;
-
 char rt_hw_console_getchar(void)
 {
-  if(first_getchar){
-    first_getchar = 0;
-    return -1;
-  }
   uint32_t data = io_read(AM_UART_RX).data;
   return data;
 }

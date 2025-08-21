@@ -27,7 +27,7 @@ Original Author: Shay Gal-on
 #include <klib-macros.h>
 #include <rtthread.h>
 
-#define ITERATIONS 1000
+#define ITERATIONS 10000
 #define MEM_METHOD MEM_STATIC
 
 #define ee_printf rt_kprintf

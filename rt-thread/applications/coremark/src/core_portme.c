@@ -152,7 +152,7 @@ portable_fini(core_portable *p)
 }
 
 // CoreMark的入口函数声明
-extern int core_main(void);
+extern int main(void);
 
 // 线程入口函数
 static void coremark_thread_entry(void *parameter)
@@ -160,15 +160,15 @@ static void coremark_thread_entry(void *parameter)
     rt_kprintf("CoreMark benchmark is running...\n");
     rt_kprintf("It will take some time, please wait.\n");
 
-    io_write(AM_GPIO_WRITE, 0xffffffff);
+    // io_write(AM_GPIO_WRITE, 0xffffffff);
     // 调用CoreMark的主函数
-    core_main();
-    io_write(AM_GPIO_WRITE, 0x00000000);
+    main();
+    // io_write(AM_GPIO_WRITE, 0x00000000);
 
     rt_kprintf("CoreMark benchmark finished.\n");
-    rt_kprintf("msh >");
-    while (1)
-        ;
+    // rt_kprintf("msh >");
+    // while (1)
+    //     ;
 }
 
 

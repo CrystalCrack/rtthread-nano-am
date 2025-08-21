@@ -41,15 +41,12 @@ static Context *ev_handler(Event e, Context *c)
   {
     rt_thread_t current = rt_thread_self();
 
-    c = *((Context **)current->user_data);
+    if(current->user_data){
+      Context **from = (Context **)current->user_data;
+      *from = c;
+    }
+    c = (Context *)current->sp;
 
-    // for (int i = 0; i < 32;i++){
-    //   DEBUG_PRINT("[YIELD] x%d: %08x(%p)\n", i, c->gpr[i], &c->gpr[i]);
-    // }
-    // DEBUG_PRINT("[YIELD] mcause: %08x(%p)\n", c->mcause, &c->mcause);
-    // DEBUG_PRINT("[YIELD] mstatus: %08x(%p)\n", c->mstatus, &c->mstatus);
-
-    DEBUG_PRINT("[YIELD] mepc: %08x(%p)\n", c->mepc, &c->mepc);
     break;
   }
   case EVENT_IRQ_TIMER:
@@ -80,21 +77,19 @@ void __am_cte_init()
 
 void rt_hw_context_switch_to(rt_ubase_t to)
 {
-  rt_thread_t current = rt_thread_self();
-
   #ifdef DEBUG_CONTEXT_SWITCH
+  rt_thread_t current = rt_thread_self();
   // to是指向线程sp字段的地址，需要通过偏移计算出线程指针
   rt_thread_t to_thread = (rt_thread_t)((char *)to - offsetof(struct rt_thread, sp));
-  DEBUG_PRINT("[SWITCH_TO] current: %s -> to: %s\n",
+  DEBUG_PRINT("[SWITCH_TO] current: %s(sp:%08x) -> to: %s(sp:%08x)\n",
               current ? current->name : "NULL",
-              to_thread ? to_thread->name : "NULL");
+              current ? current->sp : 0,
+              to_thread ? to_thread->name : "NULL",
+              to_thread ? to_thread->sp : 0);
   #endif
-
-  rt_uint32_t user_data_temp = current->user_data;
-  current->user_data = to;
   yield();
-  current->user_data = user_data_temp;
-
+  DEBUG_PRINT("[SWITCH_TO] back: %s\n",
+              current ? current->name : "NULL");
 }
 
 void rt_hw_context_switch(rt_ubase_t from, rt_ubase_t to)
@@ -106,16 +101,20 @@ void rt_hw_context_switch(rt_ubase_t from, rt_ubase_t to)
   // sp字段在线程结构体中的偏移可以通过container_of宏计算
   rt_thread_t from_thread = (rt_thread_t)((char *)from - offsetof(struct rt_thread, sp));
   rt_thread_t to_thread = (rt_thread_t)((char *)to - offsetof(struct rt_thread, sp));
-
-  DEBUG_PRINT("[SWITCH] from: %s -> to: %s\n",
+  DEBUG_PRINT("[SWITCH] from: %s(sp:%08x) -> to: %s(sp:%08x)\n",
               from_thread ? from_thread->name : "NULL",
-              to_thread ? to_thread->name : "NULL");
+              from_thread ? from_thread->sp : 0,
+              to_thread ? to_thread->name : "NULL",
+              to_thread ? to_thread->sp : 0);
   #endif
 
-  *((Context **)from) = current->sp;
   rt_uint32_t user_data_temp = current->user_data;
-  current->user_data = to;
+  current->user_data = from;
   yield();
+
+  DEBUG_PRINT("[SWITCH] back: %s\n",
+              current ? current->name : "NULL");
+
   current->user_data = user_data_temp;
 }
 
